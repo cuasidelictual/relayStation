@@ -1,0 +1,17 @@
+{
+  "name": "relaystation",
+  "version": "1.0.0",
+  "description": "A simple kafka producer to push ESP32 messages",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sebastián Pablo Simone",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "kafkajs": "^2.2.4",
+    "nodemon": "^3.1.9"
+  }
+}
