@@ -7,26 +7,28 @@ app.use(bodyparser.json())
 app.use(express.urlencoded({extended: true}));
 
 const kafka = new Kafka ({
-    clientId : 'big', 
-    brokers: ['kafka:9092']
+    clientId : 'temperatureSensors', 
+    brokers: ['localhost:9092']
 })
 
 const kproducer = kafka.producer(); 
 
 app.post('/',async function(req,res){
-    console.log(req.body.message)
-    incomingMessage =req.body.message;
-    var humidity = incomingMessage.humidity; 
-    var temperature = incomingMessage.temperature; 
-    console.log('Pushing message through')
 
-        // await kproducer.connect()
-        // await kproducer.send({
-        //   topic: 'test-topic',
-        //   messages: [
-        //     { value: 'Hello KafkaJS user!' },
-        //   ],
-        // })   
+    topic = req.body.sensor
+    delete req.body.sensor
+
+    const producer = kafka.producer()
+
+    await producer.connect()
+
+    await producer.send({
+        topic: topic,
+        messages: [
+          { value: JSON.stringify(req.body) } // Convert the JSON object to a string
+        ]
+      });
+    await kproducer.disconnect() 
     res.sendStatus(200); 
 })
 
